@@ -11,6 +11,7 @@ import {
   AlertCircle,
   Check,
   RotateCcw,
+  MessageSquareMore,
 } from 'lucide-react';
 import { safeFormatDateBR } from '@/utils/dateUtils';
 import { cn } from '@/lib/utils';
@@ -48,6 +49,14 @@ export function LeadCard({ lead, stage, isDragging, isNew, onClick, onDragStart,
 
     return null;
   }, [sales]);
+
+  const followupInfo = useMemo(() => {
+    if (!lead.followup_count || lead.followup_count === 0) return null;
+    const timeAgo = lead.last_followup_at
+      ? safeFormatDateBR(lead.last_followup_at, 'dd/MM HH:mm')
+      : null;
+    return { count: lead.followup_count, timeAgo };
+  }, [lead.followup_count, lead.last_followup_at]);
 
   const getInitials = (name: string | null) => {
     if (!name) return '??';
@@ -138,8 +147,19 @@ export function LeadCard({ lead, stage, isDragging, isNew, onClick, onDragStart,
             </p>
           )}
 
-          <div className="flex items-center justify-between mt-1.5 gap-2">
-            {getOriginBadge(lead.origem)}
+          <div className="flex items-center justify-between mt-1.5 gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5">
+              {getOriginBadge(lead.origem)}
+              {followupInfo && (
+                <div
+                  className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                  title={`Follow-up ${followupInfo.count}${followupInfo.timeAgo ? ` • Último: ${followupInfo.timeAgo}` : ''}`}
+                >
+                  <MessageSquareMore className="w-3 h-3" />
+                  <span>{followupInfo.count}x</span>
+                </div>
+              )}
+            </div>
             <span className="text-[11px] text-muted-foreground flex items-center gap-1 flex-shrink-0">
               <Clock className="w-3 h-3" />
               {safeFormatDateBR(lead.updated_at, 'dd/MM')}

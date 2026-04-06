@@ -11,6 +11,7 @@ import {
   AlertCircle,
   Check,
   RotateCcw,
+  MessageSquareMore,
 } from 'lucide-react';
 import { safeFormatDateBR } from '@/utils/dateUtils';
 import { cn } from '@/lib/utils';

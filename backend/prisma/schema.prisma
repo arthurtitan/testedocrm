@@ -139,6 +139,10 @@ model Contact {
 
   firstResolvedAt DateTime? @map("first_resolved_at") @db.Timestamptz
 
+  // Follow-up tracking
+  followupCount    Int?      @default(0) @map("followup_count")
+  lastFollowupAt   DateTime? @map("last_followup_at") @db.Timestamptz
+
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 

@@ -50,6 +50,14 @@ export function LeadCard({ lead, stage, isDragging, isNew, onClick, onDragStart,
     return null;
   }, [sales]);
 
+  const followupInfo = useMemo(() => {
+    if (!lead.followup_count || lead.followup_count === 0) return null;
+    const timeAgo = lead.last_followup_at
+      ? safeFormatDateBR(lead.last_followup_at, 'dd/MM HH:mm')
+      : null;
+    return { count: lead.followup_count, timeAgo };
+  }, [lead.followup_count, lead.last_followup_at]);
+
   const getInitials = (name: string | null) => {
     if (!name) return '??';
     return name

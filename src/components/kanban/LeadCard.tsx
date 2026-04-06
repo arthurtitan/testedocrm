@@ -147,8 +147,19 @@ export function LeadCard({ lead, stage, isDragging, isNew, onClick, onDragStart,
             </p>
           )}
 
-          <div className="flex items-center justify-between mt-1.5 gap-2">
-            {getOriginBadge(lead.origem)}
+          <div className="flex items-center justify-between mt-1.5 gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5">
+              {getOriginBadge(lead.origem)}
+              {followupInfo && (
+                <div
+                  className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                  title={`Follow-up ${followupInfo.count}${followupInfo.timeAgo ? ` • Último: ${followupInfo.timeAgo}` : ''}`}
+                >
+                  <MessageSquareMore className="w-3 h-3" />
+                  <span>{followupInfo.count}x</span>
+                </div>
+              )}
+            </div>
             <span className="text-[11px] text-muted-foreground flex items-center gap-1 flex-shrink-0">
               <Clock className="w-3 h-3" />
               {safeFormatDateBR(lead.updated_at, 'dd/MM')}
